@@ -46,7 +46,7 @@ index 0e5949b..4960d25 100644
 Start up a Multicast client on port 3000:
 
 ```
-"C:/Program Files (x86)/freeWRL/freeWRL.6.6/freeWRL.exe" "C:/Users/john/X3DJSONLD/src/main/data/bumpyfreewrlsliders.x3d" --DIS  --DISaddress 224.0.0.0 --DISport 3000 --DISsite 1 --DISapp 1 &
+"C:/Program Files (x86)/freeWRL/freeWRL.6.6/freeWRL.exe" "https://coderextreme.net/X3DJSONLD/src/main/data/bumpyfreewrlsliders.x3d" --DIS  --DISaddress 224.0.0.0 --DISport 3000 --DISsite 1 --DISapp 1 &
 ```
 
 Then run these commands
