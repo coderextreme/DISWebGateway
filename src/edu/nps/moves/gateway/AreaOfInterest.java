@@ -15,7 +15,7 @@ import org.apache.commons.codec.binary.Base64;
  * Solve area of interest management once and for all. Somebody (the client,
  * maybe the server) provides a chunk of javascript text that contains a
  * function called "aoim" and takes an argument of a PDU, and returns a
- * boolean. Java starts a Nashorn javascript interpreter and loads the 
+ * boolean. Java starts a GraaJS javascript interpreter and loads the 
  * javascript. Later the aoim function is invoked by Java to determine
  * whether the PDU should be sent to the client.<p>
  * 
@@ -41,7 +41,7 @@ public class AreaOfInterest
   /**
    * We evaluate the javascript in the engine, then get this invocable function
    * that can be called from Java to the "aoim" function in the javascript.
-   * Note that this requires JDK 1.8u20-ish to get all the Nashorn features we want,
+   * Note that this requires GraalJS to get all the JavaScript features we want,
    * including javascript typed arrays. See
    * https://wiki.openjdk.java.net/display/Nashorn/Nashorn+extensions
    */
@@ -59,7 +59,7 @@ public class AreaOfInterest
       try
       {
         ScriptEngineManager factory = new ScriptEngineManager();
-        ScriptEngine engine = factory.getEngineByName("nashorn");
+        ScriptEngine engine = factory.getEngineByName("graal.js");
         this.invocableJavascriptFunction = (Invocable) engine;
 
         //javascriptFunction = "load ('scripts/dis7.js')\n" + javascriptFunction;

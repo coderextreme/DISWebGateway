@@ -11,7 +11,7 @@ import javax.script.ScriptEngineManager;
  * client. It can also be used as a gateway, for example by changing the
  * entity type contained in a PDU to something understood by the client.
  * 
- * Uses the Nashorn javascript engine included in Java 8. Supply it with
+ * Uses the GraaJS javascript engine included in Java 8. Supply it with
  * the text of a javascript function, then invoke a Java method.
  * 
  * @author DMcG
@@ -30,7 +30,7 @@ public class JavascriptFilter
   /**
    * We evaluate the javascript in the engine, then get this invocable function
    * that can be called from Java to the "aoim" function in the javascript.
-   * Note that this requires JDK 1.8u20-ish to get all the Nashorn features we want,
+   * Note that this requires GraalJS to get all the JavaScript features we want,
    * including javascript typed arrays. See
    * https://wiki.openjdk.java.net/display/Nashorn/Nashorn+extensions
    */
@@ -51,7 +51,7 @@ public class JavascriptFilter
       try
       {
         ScriptEngineManager factory = new ScriptEngineManager();
-        ScriptEngine engine = factory.getEngineByName("nashorn");
+        ScriptEngine engine = factory.getEngineByName("graal.js");
         this.invocableJavascriptFunction = (Invocable) engine;
 
         this.javascriptFunctionText = javascriptFunction;

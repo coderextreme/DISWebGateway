@@ -1,0 +1,97 @@
+My attempt at getting DISWebGateway
+
+Download:
+```bash
+git clone https://github.com/open-dis/DISWebGateway
+cd DISWebGateway
+```
+
+Download: graaljs-community-24.0.0-windows-amd64
+
+```bash
+$ js -version
+GraalVM JavaScript (GraalVM CE JVM 24.0.0)
+```
+
+Download: graalvm-jdk-22+36.1
+
+```bash
+john@DESKTOP-8OPL3IE MINGW64 ~/DISWebGateway (master)
+$ java -version
+java version "22" 2024-03-19
+Java(TM) SE Runtime Environment Oracle GraalVM 22+36.1 (build 22+36-jvmci-b02)
+Java HotSpot(TM) 64-Bit Server VM Oracle GraalVM 22+36.1 (build 22+36-jvmci-b02, mixed mode, sharing)
+```
+
+SET your JAVA_HOME to where you unzipped GraalVM (not bin or but the folder that contains bin)
+
+You will need to update these two lines, to update the Java source versions and target verisons (change 21 to your J2SE Version:
+
+diff --git a/nbproject/project.properties b/nbproject/project.properties
+index 0e5949b..4960d25 100644
+--- a/nbproject/project.properties
++++ b/nbproject/project.properties
+@@ -242,8 +242,8 @@ javac.deprecation=false
+ javac.external.vm=false
+ javac.processorpath=\
+     ${javac.classpath}
+-javac.source=1.7
+-javac.target=1.7
++javac.source=8
++javac.target=21
+ javac.test.classpath=\
+     ${javac.classpath}:\
+     ${build.classes.dir}
+
+Start up a Multicast client on port 3000:
+
+```
+"C:/Program Files (x86)/freeWRL/freeWRL.6.6/freeWRL.exe" "C:/Users/john/X3DJSONLD/src/main/data/bumpyfreewrlsliders.x3d" --DIS  --DISaddress 224.0.0.0 --DISport 3000 --DISsite 1 --DISapp 1 &
+```
+
+Then run these commands
+```bash
+mkdir logs
+ant
+ant run
+```
+
+Go to http://localhost:8282/ in your web browser. https://localhost:443 does not work for Google Maps.
+
+
+Here are additional changes to add GraalJS instead of Nashorn.  I have moved the jars into lib/graal.  I do not know how to test this, but the engine is running?  The Web socket keeps getting closed.
+
+diff --git a/nbproject/project.properties b/nbproject/project.properties
+index 0e5949b..1517067 100644
+--- a/nbproject/project.properties
++++ b/nbproject/project.properties
+@@ -61,6 +61,14 @@ file.reference.derbyrun.jar=lib/dis/derbyrun.jar
+ file.reference.derbytools.jar=lib/dis/derbytools.jar
+ file.reference.dis-enums_1.1.jar=lib/dis/dis-enums_1.1.jar
+ file.reference.dom4j-1.6.1.jar=lib/dis/dom4j-1.6.1.jar
++file.reference.graaljs.jar=C:/graaljs-community-jvm-24.0.0-windows-amd64/graaljs-community-24.0.0-windows-amd64/modules/graaljs.jar
++file.reference.icu4j.jar=C:/graaljs-community-jvm-24.0.0-windows-amd64/graaljs-community-24.0.0-windows-amd64/modules/truffle-icu4j.jar
++file.reference.tregex.jar=C:/graaljs-community-jvm-24.0.0-windows-amd64/graaljs-community-24.0.0-windows-amd64/modules/tregex.jar
++file.reference.graal-sdk.jar=C:/graaljs-community-jvm-24.0.0-windows-amd64/graaljs-community-24.0.0-windows-amd64/modules/graal-sdk.jar
++file.reference.truffle-api.jar=C:/graaljs-community-jvm-24.0.0-windows-amd64/graaljs-community-24.0.0-windows-amd64/modules/truffle-api.jar
++file.reference.graaljs-launcher.jar=C:/graaljs-community-jvm-24.0.0-windows-amd64/graaljs-community-24.0.0-windows-amd64/modules/graaljs-launcher.jar
++file.reference.launcher-common.jar=C:/graaljs-community-jvm-24.0.0-windows-amd64/graaljs-community-24.0.0-windows-amd64/modules/launcher-common.jar
++file.reference.graaljs-scriptengine.jar=C:/graaljs-community-jvm-24.0.0-windows-amd64/graaljs-community-24.0.0-windows-amd64/modules/graaljs-scriptengine.jar
+ file.reference.hibernate-jpa-2.0-api-1.0.0.Final.jar=lib/dis/hibernate-jpa-2.0-api-1.0.0.Final.jar
+ file.reference.hibernate-search-3.2.1.Final.jar=lib/dis/hibernate-search-3.2.1.Final.jar
+ file.reference.hibernate-validator-4.1.0.Final.jar=lib/dis/hibernate-validator-4.1.0.Final.jar
+@@ -193,6 +201,14 @@ javac.classpath=\
+     ${file.reference.derbytools.jar}:\
+     ${file.reference.dis-enums_1.1.jar}:\
+     ${file.reference.dom4j-1.6.1.jar}:\
++    ${file.reference.graaljs.jar}:\
++    ${file.reference.icu4j.jar}:\
++    ${file.reference.tregex.jar}:\
++    ${file.reference.graal-sdk.jar}:\
++    ${file.reference.truffle-api.jar}:\
++    ${file.reference.graaljs-launcher.jar}:\
++    ${file.reference.launcher-common.jar}:\
++    ${file.reference.graaljs-scriptengine.jar}:\
+     ${file.reference.hibernate-jpa-2.0-api-1.0.0.Final.jar}:\
+     ${file.reference.hibernate-search-3.2.1.Final.jar}:\
+     ${file.reference.hibernate-validator-4.1.0.Final.jar}:\
